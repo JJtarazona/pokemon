@@ -20,7 +20,10 @@ const getPokemon = async (id) => {
 
   const { data } = await axios.get(URL + "/" + id);
   const { name, sprites, stats, height, weight, types } = data;
-  const img = sprites.front_default;
+  // const img = sprites.other["official-artwork"].front_default;
+  // const img = sprites.front_default;
+  const img =
+    sprites.versions["generation-v"]["black-white"]["animated"].front_default;
 
   let hp, attack, defense, speed;
   stats.forEach((stat) => {
@@ -54,8 +57,6 @@ const getPokemon = async (id) => {
     weight,
     types: types.map((type) => type.type.name),
   };
-
-  console.log(data);
   return pokemon;
 };
 

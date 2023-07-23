@@ -20,7 +20,7 @@ const getPoke = async (req, res) => {
         ({ name, sprites, stats, height, weight, types, id }) => ({
           name,
           id,
-          img: sprites.front_default,
+          img: sprites.other["official-artwork"].front_default,
           //Buscamos las estadisticas de cada pokemon y extraemos el campo base_stat
           hp: stats.find((stat) => stat.stat.name === "hp").base_stat,
           attack: stats.find((stat) => stat.stat.name === "attack").base_stat,
@@ -32,7 +32,12 @@ const getPoke = async (req, res) => {
         })
       );
 
+      // const dbPokemons = await Pokemon.findAll();
+
+      // const allPokemons = [...todosPoke, ...dbPokemons];
+
       //Retornamos todos los pokemones con sus detalles
+      //! cambiar = todosPoke; por allPokemons;
       return res.status(200).json(todosPoke);
     } else {
       const response = await axios.get(`${URL}?name=${name.toLowerCase()}`);

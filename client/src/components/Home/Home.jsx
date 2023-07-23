@@ -7,6 +7,7 @@ import {
   getTypes,
   filterCreater,
   orderByName,
+  orderByAttack,
 } from "../../redux/actions";
 import styles from "../Home/Home.module.css";
 import Paginated from "../Paginated/Paginated";
@@ -16,9 +17,10 @@ function Home() {
   const allPokemon = useSelector((state) => state.pokemons);
   const all = useSelector((state) => state.types);
   const types = useSelector((state) => state.types);
+  const [orderPokemon, setOrderPokemon] = useState([]);
 
   const [pokLoaded, setPokLoaded] = useState(all.length ? true : false);
-  const [order, setOrder] = useState("");
+  const [order, setOrder] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pokemonPerPage, setPokemonPerPage] = useState(12);
   const indexOfLastPokemon = currentPage * pokemonPerPage;
@@ -29,46 +31,55 @@ function Home() {
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
+    console.log(pageNumber);
   };
 
   useEffect(() => {
-    // dispatch(removeDetail());
-    dispatch(getTypes());
     if (!pokLoaded) {
       dispatch(getPokemon());
+      setPokLoaded(true);
+      dispatch(getTypes());
     }
   }, [pokLoaded, dispatch]);
 
-  useEffect(() => {
-    dispatch(getPokemon());
-  }, [dispatch]);
-
-  const handleClick = (e) => {
-    e.preventDefault();
-    dispatch(getPokemon());
-  };
-
   function handleFilterTypesByType(event) {
     dispatch(filterPokemonsByType(event.target.value));
+    setOrderPokemon([...orderPokemon, event.target.value]);
   }
 
   function handleFilterCreate(event) {
     dispatch(filterCreater(event.target.value));
+    setOrderPokemon([...orderPokemon, event.target.value]);
   }
 
   function handleOrderByName(event) {
     event.preventDefault();
     dispatch(orderByName(event.target.value));
     setCurrentPage(1);
+    setOrderPokemon([...orderPokemon, event.target.value]);
     setOrder(`Ordenado ${event.target.value}`);
+  }
+
+  function handleOrderAttack(event) {
+    dispatch(orderByAttack(event.target.value));
+    setCurrentPage(1);
+    setOrderPokemon([...orderPokemon, event.target.value]);
+    setOrder(`Ordenado attack`);
   }
 
   return (
     <div className={styles.container}>
-      <button onClick={(e) => handleClick(e)}>Boton de mierda</button>
+      {/* <button onClick={(e) => handleClick(e)}>Boton de mierda</button> */}
       <div>
         <div>
           <select onChange={(event) => handleOrderByName(event)}>
+            <option value=" ">Ordenar por nombre</option>
+            <option value="asc">Ascendente</option>
+            <option value="desc">Descendente</option>
+          </select>
+
+          <select onChange={(event) => handleOrderAttack(event)}>
+            <option value=" ">Ordenar por ataque</option>
             <option value="asc">Ascendente</option>
             <option value="desc">Descendente</option>
           </select>

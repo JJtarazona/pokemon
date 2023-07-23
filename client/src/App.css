@@ -1,10 +1,12 @@
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+  width: 100vw;
+  height: 100vh;
+  background-image: URL("./Image/fondo.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  overflow: auto;
 }
 
 @media (prefers-reduced-motion: no-preference) {

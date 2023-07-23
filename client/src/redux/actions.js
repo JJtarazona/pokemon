@@ -73,12 +73,17 @@ export function orderByName(payload) {
   };
 }
 
+export function orderByAttack(payload) {
+  return {
+    type: "ORDER_BY_ATTACK",
+    payload,
+  };
+}
+
 export function getDetail(id) {
   return async function (dispatch) {
     try {
-      console.log(id);
       const { data } = await axios.get(`http://localhost:3001/pokemons/${id}`);
-      console.log(data);
 
       return dispatch({
         type: "GET_DETAIL",

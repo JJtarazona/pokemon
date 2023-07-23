@@ -36,17 +36,6 @@ function rootReducer(state = initialState, action) {
           : [{ name: `${action.payload} Pokemons` }],
       };
 
-    // case "FILTER_CREATE":
-    //   const allPokemon2 = state.allPokemon;
-    //   const statusFiltered2 =
-    //     action.payload === "Created"
-    //       ? allPokemon2.filter((element) => element.createdInDb)
-    //       : allPokemon2.filter((element) => !element.createdInDb);
-    //   return {
-    //     ...state,
-    //     pokemons: statusFiltered2,
-    //   };
-
     case "FILTER_CREATE":
       const allPokemon2 = state.allPokemon;
       console.log("allPokemon2:", allPokemon2);
@@ -99,6 +88,59 @@ function rootReducer(state = initialState, action) {
         ...state,
         pokemons: sortedArr,
       };
+
+    case "ORDER_BY_ATTACK":
+      const sortedAttack =
+        action.payload === "asc"
+          ? state.pokemons.sort((a, b) => {
+              if (a.attack < b.attack) {
+                return -1;
+              }
+              if (a.attack > b.attack) {
+                return 1;
+              }
+              return 0;
+            })
+          : state.pokemons.sort((a, b) => {
+              if (a.attack < b.attack) {
+                return 1;
+              }
+              if (a.attack > b.attack) {
+                return -1;
+              }
+              return 0;
+            });
+
+      return {
+        ...state,
+        pokemons: sortedAttack,
+      };
+
+    // case "ORDER_BY_ATTACK":
+    //   const sortedArrAttack =
+    //     action.payload === "asc"
+    //       ? state.pokemones.sort(function (a, b) {
+    //           if (a.attack > b.attack) {
+    //             return 1;
+    //           }
+    //           if (b.attack > a.attack) {
+    //             return -1;
+    //           }
+    //           return 0;
+    //         })
+    //       : state.pokemones.sort(function (a, b) {
+    //           if (a.attack > b.attack) {
+    //             return -1;
+    //           }
+    //           if (b.attack > a.attack) {
+    //             return 1;
+    //           }
+    //           return 0;
+    //         });
+    //   return {
+    //     ...state,
+    //     pokemones: sortedArrAttack,
+    //   };
 
     case "GET_DETAIL": {
       return {
