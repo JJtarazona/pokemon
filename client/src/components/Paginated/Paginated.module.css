@@ -1,0 +1,40 @@
+/* CSS para el componente de paginación */
+
+nav {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+ul {
+  list-style: none;
+  display: flex;
+  padding: 0;
+}
+
+li {
+  margin: 0 5px;
+}
+
+button {
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #e0e0e0;
+}
+
+button.active {
+  background-color: #b0b0b0;
+  color: rgb(19, 123, 192);
+}
+
+button.active:hover {
+  background-color: #b0b0b0;
+  color: rgb(19, 123, 192);
+}
