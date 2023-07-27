@@ -1,24 +1,46 @@
+/* NavBar.module.css */
+
 .container {
   display: flex;
-  justify-content: space-between;
+  position: fixed;
+  width: 100%;
+  justify-content: center;
+  background-color: #333;
+  padding: 5px;
 }
 
 .navBar {
   display: flex;
   align-items: center;
-  background-color: #060107db;
-  color: #fff;
-  height: 60px;
-  padding: 0px 20px;
-  margin-bottom: 50px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 9999;
+  max-width: 1200px;
+  width: 100%;
+  justify-content: space-between;
 }
 
 .logo {
-  height: 10%;
-  width: 10%;
+  width: 100px;
+}
+
+.newContainer {
+  display: flex;
+  align-items: center;
+}
+
+button {
+  background-color: #ffc61a; /* Amarillo Pikachu */
+  border: none;
+  border-radius: 40px;
+  padding: 10px 20px;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #e5b200; /* Amarillo Pikachu más oscuro al hacer hover */
+}
+
+.newPoke {
+  margin-left: 20px;
 }

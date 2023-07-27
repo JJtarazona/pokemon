@@ -12,13 +12,13 @@ function Landing() {
       <div className={styles.content}>
         <img className={styles.logo} src={logo} alt="logo" />
         <h1 className={styles.h1}>¡Conoce a todos los increíble Pokémon! 🌟</h1>
-        <Link to={PathRoutes.HOME}>
+        <Link className={styles.link} to={PathRoutes.HOME}>
           <button className={styles.buttonHome}>
             <div>
               <img className={styles.pikachu} src={pikachu} alt="Pokebola" />
             </div>
             <div>
-              <h3>HOME</h3>
+              <h3 className={styles.h3}>GO TO HOME</h3>
             </div>
           </button>
         </Link>

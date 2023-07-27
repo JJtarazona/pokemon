@@ -1,36 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { getNamePokemon } from "../../redux/actions";
-import style from "./SearchBar.module.css";
-
-// export default function SearchBar() {
-//   const dispatch = useDispatch();
-//   const [name, setName] = useState("");
-
-//   const handleInputChange = (event) => {
-//     event.preventDefault();
-//     setName(event.target.value);
-//     console.log(name);
-//   };
-
-//   const handleSubmit = (event) => {
-//     event.preventDefault();
-//     dispatch(getNamePokemon(name));
-//   };
-
-//   return (
-//     <div>
-//       <input
-//         type="search"
-//         placeholder="Buscar Pokemon"
-//         onChange={(event) => handleInputChange(event)}
-//       />
-//       <button type="submit" onClick={(event) => handleSubmit(event)}>
-//         Buscar
-//       </button>
-//     </div>
-//   );
-// }
+import styles from "./SearchBar.module.css";
 
 export default function SearchBar() {
   const dispatch = useDispatch();
@@ -38,27 +9,39 @@ export default function SearchBar() {
 
   function handleInputChange(e) {
     e.preventDefault();
-    setName(e.target.value.replaceAll(/^\s+/g, "").replaceAll(/\s+/g, " "));
+    setName(e.target.value);
+    console.log(e.target.value);
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    if (name !== "") {
-      dispatch(getNamePokemon(name));
-      setName("");
+    if (name.trim() === "") {
+      alert("Por favor, ingrese el nombre del Pokémon.");
+      return;
     }
+
+    try {
+      const response = await dispatch(getNamePokemon(name));
+      if (!response) {
+        alert("No se encontró ningún Pokémon con ese nombre.");
+      }
+    } catch (error) {
+      alert("Hubo un error al buscar el Pokémon.");
+    }
+    setName("");
   }
 
   return (
     <div>
       <form onSubmit={(e) => handleSubmit(e)}>
         <input
+          className={styles.input}
           type="text"
-          placeholder="Buscar Pokemon..."
+          placeholder="Buscar Pokémon..."
           value={name}
           onChange={(e) => handleInputChange(e)}
         />
-        <button type="submit" onClick={(e) => handleSubmit(e)}>
+        <button className={styles.buscar} type="submit">
           Buscar
         </button>
       </form>

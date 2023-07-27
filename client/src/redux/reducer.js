@@ -25,9 +25,17 @@ function rootReducer(state = initialState, action) {
       const filteredPokemon =
         action.payload === "All"
           ? allPokemon
-          : allPokemon.filter((element) =>
-              element.types.includes(action.payload)
-            );
+          : allPokemon.filter((element) => {
+              if (!element.createdInDb) {
+                if (element.types.includes(action.payload)) {
+                  return element;
+                }
+              } else {
+                if (element.Types.some((e) => e.name == action.payload)) {
+                  return element;
+                }
+              }
+            });
 
       return {
         ...state,

@@ -2,11 +2,12 @@ import axios from "axios";
 
 export function getPokemon() {
   return async function (dispatch) {
-    const { data } = await axios.get("http://localhost:3001/pokemons", {});
+    const { data } = await axios.get("http://localhost:3001/pokemons");
+    const pokArray = Array.isArray(data) ? data : [data];
 
     return dispatch({
       type: "GET_POKEMONS",
-      payload: data,
+      payload: pokArray,
     });
   };
 }

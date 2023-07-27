@@ -1,5 +1,5 @@
 const axios = require("axios");
-const { Pokemon } = require("../db");
+const { Pokemon, Type } = require("../db");
 const URL = "https://pokeapi.co/api/v2/pokemon?limit=151";
 
 const getPoke = async (req, res) => {
@@ -32,13 +32,18 @@ const getPoke = async (req, res) => {
         })
       );
 
-      // const dbPokemons = await Pokemon.findAll();
+      const dbPokemons = await Pokemon.findAll({
+        include: [
+          {
+            model: Type,
+            attributes: ["name"],
+          },
+        ],
+      });
 
-      // const allPokemons = [...todosPoke, ...dbPokemons];
+      const allPokemons = todosPoke.concat(dbPokemons);
 
-      //Retornamos todos los pokemones con sus detalles
-      //! cambiar = todosPoke; por allPokemons;
-      return res.status(200).json(todosPoke);
+      return res.status(200).json(allPokemons);
     } else {
       const response = await axios.get(`${URL}?name=${name.toLowerCase()}`);
 
@@ -57,7 +62,7 @@ const getPoke = async (req, res) => {
           const pokemonData = {
             id: pokemonDetails.id,
             name: pokemonDetails.name,
-            img: pokemonDetails.sprites.front_default,
+            img: pokemonDetails.sprites.other["official-artwork"].front_default,
             hp: pokemonDetails.stats.find((stat) => stat.stat.name === "hp")
               .base_stat,
             attack: pokemonDetails.stats.find(

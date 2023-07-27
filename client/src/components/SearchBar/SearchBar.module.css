@@ -1,0 +1,25 @@
+/* SearchBar.module.css */
+
+.input {
+  width: 300px;
+  padding: 8px;
+  height: 20px;
+  border: 1px solid #ccc;
+  border-radius: 40px 0 0 40px;
+}
+
+.buscar {
+  background-color: #ffc61a;
+  border-radius: 0px 40px 40px 0px;
+  height: 37px;
+  color: #ffffff;
+  font-size: 13px;
+  cursor: pointer;
+  border: 1px solid #ffc61a;
+
+  transition: background-color 0.3s ease;
+}
+
+.buscar:hover {
+  background-color: #e5b200;
+}

@@ -3,11 +3,14 @@ import { Link } from "react-router-dom";
 import { getTypes, postPokemon } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import PathRoutes from "../../Helpers/Routes.Helpers";
-import validate from "../../Validation/validation"; // Importamos la función validate
+import validate from "../../Validation/validation";
+import styles from "../FormPoke/FormPoke.module.css";
 
 export default function FormPoke() {
   const dispatch = useDispatch();
   const types = useSelector((state) => state.types);
+
+  const [errors, setErrors] = useState();
 
   const [input, setInput] = useState({
     name: "",
@@ -28,6 +31,13 @@ export default function FormPoke() {
     });
   }
 
+  function handleDelte(tip) {
+    setInput({
+      ...input,
+      type: input.type.filter((t) => t !== tip),
+    });
+  }
+
   function handleSelect(e) {
     setInput({
       ...input,
@@ -39,10 +49,12 @@ export default function FormPoke() {
     e.preventDefault();
 
     // Realizamos las validaciones
-    const errors = validate(input);
+    const errorsx = validate(input);
+    console.log(errorsx);
+    setErrors(errorsx);
 
     // Verificamos si hay errores
-    if (Object.keys(errors).length > 0) {
+    if (Object.keys(errorx).length > 0) {
       // Si hay errores, mostramos los mensajes de error
       alert(
         "Por favor, corrige los siguientes errores:\n" + JSON.stringify(errors)
@@ -71,40 +83,46 @@ export default function FormPoke() {
 
   return (
     <div>
-      <Link to={PathRoutes.HOME}>
-        <button>Home</button>
-      </Link>
-      <h1>Crea tu Pokemon</h1>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <div>
-          <label>Nombre:</label>
-          <input
-            type="text"
-            value={input.name}
-            name="name"
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label>Vida:</label>
-          <input
-            type="number"
-            value={input.hp}
-            name="hp"
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label>Ataque:</label>
-          <input
-            type="number"
-            value={input.attack}
-            name="attack"
-            onChange={handleChange}
-          />
+      <div className={styles.contaForm}>
+        <Link to={PathRoutes.HOME}>
+          <button>Home</button>
+        </Link>
+        <h1>Crea tu Pokemon</h1>
+        <form onSubmit={(e) => handleSubmit(e)}>
+          <div>
+            <label>Nombre:</label>
+            <input
+              className={styles.input}
+              type="text"
+              value={input.name}
+              name="name"
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label>Vida:</label>
+            <input
+              className={styles.input}
+              type="number"
+              value={input.hp}
+              name="hp"
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label className={styles.lab}>Ataque:</label>
+            <input
+              className={styles.input}
+              type="number"
+              value={input.attack}
+              name="attack"
+              onChange={handleChange}
+            />
+          </div>
           <div>
             <label>Defensa:</label>
             <input
+              className={styles.input}
               type="number"
               value={input.defense}
               name="defense"
@@ -114,6 +132,7 @@ export default function FormPoke() {
           <div>
             <label>Velocidad:</label>
             <input
+              className={styles.input}
               type="number"
               value={input.speed}
               name="speed"
@@ -123,6 +142,7 @@ export default function FormPoke() {
           <div>
             <label>height:</label>
             <input
+              className={styles.input}
               type="number"
               value={input.height}
               name="height"
@@ -132,6 +152,7 @@ export default function FormPoke() {
           <div>
             <label>weight:</label>
             <input
+              className={styles.input}
               type="number"
               value={input.weight}
               name="weight"
@@ -139,8 +160,9 @@ export default function FormPoke() {
             />
           </div>
           <div>
-            <label>img:</label>
+            <label className={styles.lab}>img:</label>
             <input
+              className={styles.input}
               type="text"
               value={input.img}
               name="img"
@@ -148,21 +170,39 @@ export default function FormPoke() {
             />
           </div>
           <div>
-            <select onChange={handleSelect}>
+            <select className={styles.select} onChange={handleSelect}>
               {types.map((type) => (
                 <option key={type} value={type.name}>
                   {type.name}
                 </option>
               ))}
             </select>
-            <ul>
-              <li>{input.type.map((el) => el + " ,")}</li>
-            </ul>
           </div>
-        </div>
-        {console.log(input)}
-        <button type="submit"> Crear Pokemon</button>
-      </form>
+          {input.type.map((tip) => (
+            <div className="divTipo">
+              <p>{tip}</p>
+              <button className="btnX" onClick={() => handleDelte(tip)}>
+                x
+              </button>
+            </div>
+          ))}
+          <br />
+
+          {console.log(input)}
+          <button type="submit"> Crear Pokemon</button>
+        </form>
+      </div>
+      <div className={styles.glass}>
+        <h1>Mira el Pokemon</h1>
+
+        {input.img ? (
+          <img
+            className={styles.imgPreview}
+            src={input.img}
+            alt="Foto del pokemon"
+          />
+        ) : null}
+      </div>
     </div>
   );
 }
